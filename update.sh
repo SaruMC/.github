@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORG_NAME="SaruMC"
-README_FILE="README.md"
+README_FILE="profile/README.md"
 
 
 repo_count=0
@@ -12,6 +12,8 @@ per_page=100
 while true; do
   response=$(curl -s -H "Authorization: token $GH_PAT" \
     "https://api.github.com/orgs/$ORG_NAME/repos?per_page=$per_page&page=$page")
+
+  echo "$response"
 
   repos_in_page=$(echo "$response" | jq '. | length')
 
