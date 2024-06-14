@@ -1,0 +1,29 @@
+name: Update README
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js (for jq)
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install jq
+      run: sudo apt-get install jq
+
+    - name: Run update_readme.sh script
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
+        chmod +x update_readme.sh
+        ./update_readme.sh
