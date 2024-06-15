@@ -25,5 +25,5 @@ jobs:
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
-        chmod +x update_readme.sh
-        ./update_readme.sh
+        chmod +x update.sh
+        ./update.sh
