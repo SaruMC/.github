@@ -5,12 +5,11 @@
 GitHub is public and anyone can see the issues you post on the issue tracker, including people who would exploit vulnerabilities for their own gain.
 
 > [!WARNING]
-> You may put live servers at risk by reporting a vulnerability on the GitHub issue tracker.**
+> You may put live servers at risk by reporting a vulnerability on the GitHub issue tracker.
 
 **Contact us** by sending an email to [**security@saru-games.gg**](mailto:security@saru-games.gg). Include the following information:
 
-- Version of PocketMine-MP
-- Version of Horus
+- Version of the code (check release tag)
 - Detailed description of the vulnerability (e.g. how to exploit it, what the effects are)
 - Your GitHub username, if you wish to be credited for reporting the problem in the security advisory
 
