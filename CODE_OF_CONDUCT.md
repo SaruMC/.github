@@ -1,4 +1,4 @@
-# Microsoft Open Source Code of Conduct
+# SaruMC Open Source Code of Conduct
 
 This project has adopted the [SaruGames Open Source Code of Conduct](https://www.saru-games.gg/codeofconduct/).
 
