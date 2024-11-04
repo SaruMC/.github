@@ -1,0 +1,46 @@
+name: Auto Assign
+
+on:
+    issues:
+        types: [opened]
+
+jobs:
+    run:
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+            pull-requests: write
+
+        steps:
+            - name: 'Check repository language'
+              id: repo-language
+              run: |
+                main_language=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r .language)
+                echo "::set-output name=language::$main_language"
+
+            - name: 'Set assignees'
+              id: set-assignees
+              run: |
+                if [ "${{ steps.repo-language.outputs.language }}" == "TypeScript" ]; then
+                  echo "::set-output name=assignees::AslakOffi,mitsuakki"
+                elif [ "${{ steps.repo-language.outputs.language }}" == "PHP" ]; then
+                  echo "::set-output name=assignees::mitsuakki,NathanBaudrier"
+                elif [[ "${{ steps.repo-language.outputs.language }}" == "Go" || "${{ steps.repo-language.outputs.language }}" == "Java" || "${{ steps.repo-language.outputs.language }}" == "C" ]]; then
+                  echo "::set-output name=assignees::mitsuakki"
+                else
+                  echo "::set-output name=assignees::"
+                fi
+
+            - name: 'Calculate number of assignees'
+              id: calculate-num-assignees
+              run: |
+                assignees="${{ steps.set-assignees.outputs.assignees }}"
+                numOfAssignee=$(echo "$assignees" | awk -F',' '{print NF > 1 ? 2 : 1}')
+                echo "::set-output name=numOfAssignee::$numOfAssignee"
+
+            - name: 'Auto-assign issue'
+              uses: pozil/auto-assign-issue@v1
+              with:
+                repo-token: ${{ secrets.GITHUB_TOKEN }}
+                assignees: ${{ steps.set-assignees.outputs.assignees }}
+                numOfAssignee: ${{ steps.calculate-num-assignees.outputs.numOfAssignee }}

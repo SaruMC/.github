@@ -1,0 +1,37 @@
+name: PR assignment
+
+on:
+    pull_request:
+        types: [opened, edited, synchronize, reopened]
+
+jobs:
+    auto-assign:
+        runs-on: ubuntu-latest
+        permissions:
+            pull-requests: write
+        steps:
+            - name: 'Checkout repository'
+              uses: actions/checkout@v2
+
+            - name: 'Check for plugin.yml'
+              id: check_plugin
+              run: |
+                if [ -f plugin.yml ]; then
+                  echo "plugin_exists=true" >> $GITHUB_ENV
+                else
+                  echo "plugin_exists=false" >> $GITHUB_ENV
+                fi
+
+            - name: 'Auto-assign PR'
+              if: ${{ env.plugin_exists == 'true' }}
+              uses: pozil/auto-assign-issue@v2
+              with:
+                  repo-token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+                  assignees: NathanBaudrier, mitsuakki
+
+            - name: 'Auto-assign PR to mitsuakki'
+              if: ${{ env.plugin_exists == 'false' }}
+              uses: pozil/auto-assign-issue@v2
+              with:
+                  repo-token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+                  assignees: mitsuakki
