@@ -1,0 +1,5 @@
+﻿# Linguist overrides
+*.md linguist-vendored=false
+*.md linguist-generated=false
+*.md linguist-documentation=false
+*.md linguist-detectable=true
